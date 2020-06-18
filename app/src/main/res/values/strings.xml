@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Cor-Nicosia</string>
+    <string name="url_one">https://cor-nicosia.com/</string>
+    <string name="url_two">https://cor-nicosia.com/category/slujbe-in-limba-romana/</string>
+    <string name="url_three">https://cor-nicosia.com/category/articole-folositare/</string>
+    <string name="url_four">https://cor-nicosia.com/category/stiri-activitati/</string>
+    <string name="url_five">https://cor-nicosia.com/arhiva-poze/</string>
+    <string name="url_six">https://cor-nicosia.com/contact/</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
