@@ -10,15 +10,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.cornicosia.android.PostDetail;
 import com.cornicosia.android.R;
 import com.cornicosia.android.utils.PostContentAdapter;
@@ -28,7 +31,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class PostContentList extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView postContent;
 
+    private View view;
     public PostContentList() {
         // Required empty public constructor
     }
@@ -61,15 +64,50 @@ public class PostContentList extends Fragment {
                         Log.d("resultis", "result is " + result.toString());
                         jsonArray = result.getAsJsonArray();
 
-                        for (int i = 0; i < jsonArray.size(); i++) {
+                        //here we will show first child in large size
+                        final JsonObject firstJSONObject = jsonArray.get(0).getAsJsonObject();
+                        TextView firstChildTitle=view.findViewById(R.id.first_child_title);
+                        TextView firstChildDescription=view.findViewById(R.id.first_child_description);
+                        TextView firstChildDate=view.findViewById(R.id.first_child_date);
+                        ImageView firstChildImage=view.findViewById(R.id.first_child_image);
+
+                        firstChildTitle.setText(firstJSONObject.get("post_title").getAsString());
+                        firstChildDescription.setText(firstJSONObject.get("post_description").getAsString());
+                        firstChildDate.setText(firstJSONObject.get("post_publish_date").getAsString()+"  "+firstJSONObject.get("post_publish_time").getAsString());
+
+                        //load first child image into imageview using Glide library
+                        Glide.with(getActivity())
+                                .load(firstJSONObject.get("post_image_large").getAsString())
+                                .into(firstChildImage);
+
+                        RelativeLayout firstChildData=view.findViewById(R.id.firstChildData);
+                        firstChildData.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent mIntent = new Intent(getActivity(), PostDetail.class);
+                                mIntent.putExtra("post_title", firstJSONObject.get("post_title").getAsString());
+                                mIntent.putExtra("post_description", firstJSONObject.get("post_description").getAsString());
+                                mIntent.putExtra("post_featured_image", firstJSONObject.get("post_image_large").getAsString());
+                                mIntent.putExtra("post_publish_date", firstJSONObject.get("post_publish_date").getAsString());
+                                mIntent.putExtra("post_publish_time", firstJSONObject.get("post_publish_time").getAsString());
+                                mIntent.putExtra("post_author", firstJSONObject.get("post_author").getAsString());
+                                mIntent.putExtra("post_permalink", firstJSONObject.get("post_permalink").getAsString());
+                                getActivity().overridePendingTransition(R.anim.signin_incoming_screen_right_to_mean_position, R.anim.signin_current_screen_move_mean_to_left);
+                                startActivity(mIntent);
+                            }
+                        });
+                        //remaining json objects's data will show into recyclerview
+                        for (int i = 1; i < jsonArray.size(); i++) {
                             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
                             String postTitle = jsonObject.get("post_title").getAsString();
                             String postDescription = jsonObject.get("post_description").getAsString();
                             String postPublishDate = jsonObject.get("post_publish_date").getAsString();
+                            String postPublishTime = jsonObject.get("post_publish_time").getAsString();
                             String postImageLarge = jsonObject.get("post_image_large").getAsString();
                             String postImageSmall = jsonObject.get("post_image_small").getAsString();
                             String postAuthor = jsonObject.get("post_author").getAsString();
-                            postContentList.add(new PostContentModel(postTitle, postDescription, postPublishDate, postAuthor, postImageLarge, postImageSmall));
+                            String postPermalink = jsonObject.get("post_permalink").getAsString();
+                            postContentList.add(new PostContentModel(postTitle, postDescription, postPublishDate,postPublishTime, postAuthor, postImageLarge, postImageSmall,postPermalink));
                             // Log.d("objsize", "size is " + distance);
                             setAdapter();
                         }
@@ -87,7 +125,7 @@ public class PostContentList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_post_content_list, container, false);
+        view = inflater.inflate(R.layout.fragment_post_content_list, container, false);
         postContent = view.findViewById(R.id.post_content_list);
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(
@@ -121,7 +159,9 @@ public class PostContentList extends Fragment {
                         mIntent.putExtra("post_description", postContentList.get(position).getPostDescription());
                         mIntent.putExtra("post_featured_image", postContentList.get(position).getPostImageLarge());
                         mIntent.putExtra("post_publish_date", postContentList.get(position).getPostPublishDate());
+                        mIntent.putExtra("post_publish_time", postContentList.get(position).getPostPublishTime());
                         mIntent.putExtra("post_author", postContentList.get(position).getPostAuthor());
+                        mIntent.putExtra("post_permalink", postContentList.get(position).getPostPermalink());
                         getActivity().overridePendingTransition(R.anim.signin_incoming_screen_right_to_mean_position, R.anim.signin_current_screen_move_mean_to_left);
                         startActivity(mIntent);
                     }

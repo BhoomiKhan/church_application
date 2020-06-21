@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostDetail"></activity>
+        <activity android:name=".PostDetail" />
         <activity android:name=".ContactUs" />
         <activity android:name=".Menu" />
         <activity android:name=".SplashScreen">

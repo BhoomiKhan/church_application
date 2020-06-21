@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         //viewPager initialization
         viewPager = (ViewPager) findViewById(R.id.pager);
-        TabPageAdapter adapter = new TabPageAdapter(getSupportFragmentManager(), 1);
+        TabPageAdapter adapter = new TabPageAdapter(getSupportFragmentManager(), 5);
         viewPager.setAdapter(adapter);
         viewPager.setVisibility(View.VISIBLE);
 
@@ -114,12 +114,24 @@ public class MainActivity extends AppCompatActivity {
                     mWebView.setVisibility(View.GONE);
                     viewPager.setCurrentItem(0);
                 } else if (index == 1) {
+                    viewPager.setVisibility(View.VISIBLE);
+                    mWebView.setVisibility(View.GONE);
+                    viewPager.setCurrentItem(1);
                     url = getString(R.string.url_two);
                 } else if (index == 2) {
+                    viewPager.setVisibility(View.VISIBLE);
+                    mWebView.setVisibility(View.GONE);
+                    viewPager.setCurrentItem(2);
                     url = getString(R.string.url_three);
                 } else if (index == 3) {
+                    viewPager.setVisibility(View.VISIBLE);
+                    mWebView.setVisibility(View.GONE);
+                    viewPager.setCurrentItem(3);
                     url = getString(R.string.url_four);
                 } else if (index == 4) {
+                    viewPager.setVisibility(View.VISIBLE);
+                    mWebView.setVisibility(View.GONE);
+                    viewPager.setCurrentItem(4);
                     url = getString(R.string.url_five);
                 }
                 shouldOverrideUrlLoading(mWebView, url);
