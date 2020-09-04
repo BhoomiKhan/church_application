@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -76,7 +77,7 @@ public class FetchArticolePosts extends Fragment {
 
                         firstChildTitle.setText(firstJSONObject.get("post_title").getAsString());
                         firstChildDescription.setText(firstJSONObject.get("post_description").getAsString());
-                        firstChildDate.setText(firstJSONObject.get("post_publish_date").getAsString()+"  "+firstJSONObject.get("post_publish_time").getAsString());
+                        firstChildDate.setText(firstJSONObject.get("post_publish_date").getAsString()+"  "+"10:10 PM");
 
                         //load first child image into imageview using Glide library
                         Glide.with(getActivity())
@@ -92,9 +93,9 @@ public class FetchArticolePosts extends Fragment {
                                 mIntent.putExtra("post_description", firstJSONObject.get("post_description").getAsString());
                                 mIntent.putExtra("post_featured_image", firstJSONObject.get("post_image_large").getAsString());
                                 mIntent.putExtra("post_publish_date", firstJSONObject.get("post_publish_date").getAsString());
-                                mIntent.putExtra("post_publish_time", firstJSONObject.get("post_publish_time").getAsString());
+                                mIntent.putExtra("post_publish_time", "10:10 PM");
                                 mIntent.putExtra("post_author", firstJSONObject.get("post_author").getAsString());
-                                mIntent.putExtra("post_permalink", firstJSONObject.get("post_permalink").getAsString());
+                                mIntent.putExtra("post_permalink", "Link");
                                 getActivity().overridePendingTransition(R.anim.signin_incoming_screen_right_to_mean_position, R.anim.signin_current_screen_move_mean_to_left);
                                 startActivity(mIntent);
                             }
@@ -105,11 +106,11 @@ public class FetchArticolePosts extends Fragment {
                             String postTitle = jsonObject.get("post_title").getAsString();
                             String postDescription = jsonObject.get("post_description").getAsString();
                             String postPublishDate = jsonObject.get("post_publish_date").getAsString();
-                            String postPublishTime = jsonObject.get("post_publish_time").getAsString();
+                            String postPublishTime = "10:10 PM";
                             String postImageLarge = jsonObject.get("post_image_large").getAsString();
                             String postImageSmall = jsonObject.get("post_image_small").getAsString();
                             String postAuthor = jsonObject.get("post_author").getAsString();
-                            String postPermalink = jsonObject.get("post_permalink").getAsString();
+                            String postPermalink = "Link";
                             postContentList.add(new PostContentModel(postTitle, postDescription, postPublishDate,postPublishTime, postAuthor, postImageLarge, postImageSmall,postPermalink));
                             // Log.d("objsize", "size is " + distance);
                             setAdapter();
@@ -130,6 +131,7 @@ public class FetchArticolePosts extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_fetch_articole_posts, container, false);
         postContent = view.findViewById(R.id.post_content_list);
+
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -162,9 +164,9 @@ public class FetchArticolePosts extends Fragment {
                         mIntent.putExtra("post_description", postContentList.get(position).getPostDescription());
                         mIntent.putExtra("post_featured_image", postContentList.get(position).getPostImageLarge());
                         mIntent.putExtra("post_publish_date", postContentList.get(position).getPostPublishDate());
-                        mIntent.putExtra("post_publish_time", postContentList.get(position).getPostPublishTime());
+                        mIntent.putExtra("post_publish_time", "10:10 PM");
                         mIntent.putExtra("post_author", postContentList.get(position).getPostAuthor());
-                        mIntent.putExtra("post_permalink", postContentList.get(position).getPostPermalink());
+                        mIntent.putExtra("post_permalink", "Link");
                         getActivity().overridePendingTransition(R.anim.signin_incoming_screen_right_to_mean_position, R.anim.signin_current_screen_move_mean_to_left);
                         startActivity(mIntent);
                     }

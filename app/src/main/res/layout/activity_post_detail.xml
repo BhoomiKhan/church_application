@@ -78,8 +78,6 @@
             </RelativeLayout>
 
             <TextView
-                android:background="@color/colorAccent"
-                android:textColor="@android:color/white"
                 android:id="@+id/post_Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.bumptech.glide.Glide;
 import com.cornicosia.android.PostDetail;
 import com.cornicosia.android.R;
@@ -53,7 +52,7 @@ public class PostContentList extends Fragment {
         if (haveNetworkConnection()) {
             postContentList = new LinkedList<>();
             Log.d("debugging_error", "yes have internet connection");
-            Ion.with(getActivity()).load("https://cor-nicosia.com/fetch-post-data/")
+            Ion.with(getActivity()).load("https://cor-nicosia.com/fetch-latest-posts/")
                     .asJsonArray().setCallback(new FutureCallback<JsonArray>() {
                 @Override
                 public void onCompleted(Exception e, JsonArray result) {
@@ -73,7 +72,7 @@ public class PostContentList extends Fragment {
 
                         firstChildTitle.setText(firstJSONObject.get("post_title").getAsString());
                         firstChildDescription.setText(firstJSONObject.get("post_description").getAsString());
-                        firstChildDate.setText(firstJSONObject.get("post_publish_date").getAsString()+"  "+firstJSONObject.get("post_publish_time").getAsString());
+                        firstChildDate.setText(firstJSONObject.get("post_publish_date").getAsString()+"  "+"10:10 PM");
 
                         //load first child image into imageview using Glide library
                         Glide.with(getActivity())
